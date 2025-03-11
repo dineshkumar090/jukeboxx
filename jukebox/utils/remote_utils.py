@@ -1,21 +1,23 @@
 import sys
 import subprocess
 
-# def download(remote_path, local_path, async_download=False):
-#     args = ['wget', '-O', local_path, remote_path]
-#     print("Running ", " ".join(args))
-#     if async_download:
-#         subprocess.Popen(args)
-#     else:
-#         subprocess.call(args)
-
 def download(remote_path, local_path, async_download=False):
-    args = ['wget', '-q', '-O', local_path, remote_path]  # -q for quiet mode
-    print(f"Downloading {remote_path} to {local_path}...")
+    args = ['wget', '-O', local_path, remote_path]
+    print("Running ", " ".join(args))
     if async_download:
-        subprocess.Popen(args, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        return subprocess.Popen(args, stdout=subprocess.DEVNULL)
     else:
-        subprocess.call(args, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        result = subprocess.call(args, stdout=subprocess.DEVNULL)
+        if result != 0:
+            print(f"Download failed with return code {result}", file=sys.stderr)
+
+# def download(remote_path, local_path, async_download=False):
+#     args = ['wget', '-q', '-O', local_path, remote_path]  # -q for quiet mode
+#     print(f"Downloading {remote_path} to {local_path}...")
+#     if async_download:
+#         subprocess.Popen(args, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+#     else:
+#         subprocess.call(args, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 
 # GCE
