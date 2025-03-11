@@ -1,13 +1,22 @@
 import sys
 import subprocess
 
+# def download(remote_path, local_path, async_download=False):
+#     args = ['wget', '-O', local_path, remote_path]
+#     print("Running ", " ".join(args))
+#     if async_download:
+#         subprocess.Popen(args)
+#     else:
+#         subprocess.call(args)
+
 def download(remote_path, local_path, async_download=False):
-    args = ['wget', '-O', local_path, remote_path]
-    print("Running ", " ".join(args))
+    args = ['wget', '-q', '-O', local_path, remote_path]  # -q for quiet mode
+    print(f"Downloading {remote_path} to {local_path}...")
     if async_download:
-        subprocess.Popen(args)
+        subprocess.Popen(args, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     else:
-        subprocess.call(args)
+        subprocess.call(args, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
 
 # GCE
 def gs_download(gs_path, local_path, async_download=False):
