@@ -1,15 +1,28 @@
 import sys
 import subprocess
 
+
 def download(remote_path, local_path, async_download=False):
-    args = ['wget', '-O', local_path, remote_path]
+    # Add '-q' to suppress progress logs
+    args = ['wget', '-q', '-O', local_path, remote_path]
     print("Running ", " ".join(args))
     if async_download:
-        return subprocess.Popen(args, stdout=subprocess.DEVNULL)
+        # Asynchronous download: run in background
+        return subprocess.Popen(args)
     else:
-        result = subprocess.call(args, stdout=subprocess.DEVNULL)
+        # Synchronous download: wait for completion
+        result = subprocess.call(args)
         if result != 0:
             print(f"Download failed with return code {result}", file=sys.stderr)
+# def download(remote_path, local_path, async_download=False):
+#     args = ['wget', '-O', local_path, remote_path]
+#     print("Running ", " ".join(args))
+#     if async_download:
+#         return subprocess.Popen(args, stdout=subprocess.DEVNULL)
+#     else:
+#         result = subprocess.call(args, stdout=subprocess.DEVNULL)
+#         if result != 0:
+#             print(f"Download failed with return code {result}", file=sys.stderr)
 
 # def download(remote_path, local_path, async_download=False):
 #     args = ['wget', '-q', '-O', local_path, remote_path]  # -q for quiet mode
